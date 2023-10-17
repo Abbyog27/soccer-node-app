@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const playerNames = require('./player-info');
 
 //test using the core module (fs)
 fs.readFileSync('soccer-players.txt', 'utf8', ( error, data) => {
@@ -15,6 +16,14 @@ fs.readFileSync('soccer-players.txt', 'utf8', ( error, data) => {
 app.get('/', (req, res) => {
     return res.json({message: 'Welcome to Soccer Node App'})
 });
+
+//using req.params and local modules
+app.get('/players/:player', (req, res) => {
+    let player = req.params.player;
+    let answer = playerNames([player]);
+    return res.json({ answer:answer});
+});
+
 
 //using core modules and req.query
 app.get('/read', (req, res) => {
